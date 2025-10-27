@@ -5,18 +5,31 @@ describe('API Testing Scenarios', () => {
 
   describe('Successful API Call', () => {
     it('should fetch data successfully', () => {
-      cy.get('[data-testid="api-success-button"]').click();
+      // Verify initial state
+      cy.get('[data-testid="api-success-button"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('exist')
+        .and('have.attr', 'type', 'button')
+        .click();
       
       // Verify loading state appears
-      cy.get('[data-testid="loading-state"]').should('be.visible');
+      cy.get('[data-testid="loading-state"]')
+        .should('be.visible')
+        .and('exist');
       
       // Wait for success response
       cy.get('[data-testid="success-response"]', { timeout: 2000 })
         .should('be.visible')
-        .and('contain', 'Success!');
+        .and('exist')
+        .and('contain', 'Success!')
+        .should('have.class', 'border-primary');
       
       // Verify loading state is gone
       cy.get('[data-testid="loading-state"]').should('not.exist');
+      
+      // Verify button is re-enabled
+      cy.get('[data-testid="api-success-button"]').should('be.enabled');
     });
 
     it('should display response data', () => {
@@ -34,7 +47,10 @@ describe('API Testing Scenarios', () => {
       cy.get('[data-testid="api-success-button"]').click();
       
       cy.get('[data-testid="success-response"]', { timeout: 2000 })
+        .should('be.visible')
         .find('pre')
+        .should('exist')
+        .and('be.visible')
         .invoke('text')
         .then((jsonText) => {
           const data = JSON.parse(jsonText);
@@ -42,6 +58,9 @@ describe('API Testing Scenarios', () => {
           expect(data).to.have.property('message');
           expect(data).to.have.property('timestamp');
           expect(data.id).to.be.a('number');
+          expect(data.message).to.be.a('string');
+          expect(data.timestamp).to.be.a('number');
+          expect(data.id).to.be.greaterThan(0);
         });
     });
   });
@@ -114,7 +133,9 @@ describe('API Testing Scenarios', () => {
     it('should display network status', () => {
       cy.get('[data-testid="network-status"]')
         .should('be.visible')
-        .and('contain', 'Network: Online');
+        .and('exist')
+        .and('contain', 'Network: Online')
+        .should('not.contain', 'Offline');
     });
 
     it('should show API endpoints status', () => {

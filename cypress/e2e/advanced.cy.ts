@@ -9,19 +9,27 @@ describe('Advanced Testing Scenarios', () => {
       const fileName = 'test-file.txt';
       const fileContent = 'This is a test file';
       
-      cy.get('[data-testid="file-input"]').selectFile({
-        contents: Cypress.Buffer.from(fileContent),
-        fileName: fileName,
-        mimeType: 'text/plain',
-      });
+      // Verify file input exists and has correct attributes
+      cy.get('[data-testid="file-input"]')
+        .should('exist')
+        .and('have.attr', 'type', 'file')
+        .selectFile({
+          contents: Cypress.Buffer.from(fileContent),
+          fileName: fileName,
+          mimeType: 'text/plain',
+        });
       
       // Verify file info is displayed
       cy.get('[data-testid="uploaded-file-info"]')
         .should('be.visible')
-        .and('contain', fileName);
+        .and('exist')
+        .and('contain', fileName)
+        .should('not.be.empty');
       
       // Verify toast notification
-      cy.contains(`File selected: ${fileName}`).should('be.visible');
+      cy.contains(`File selected: ${fileName}`)
+        .should('be.visible')
+        .and('exist');
     });
 
     it('should handle drag and drop', () => {
@@ -95,10 +103,20 @@ describe('Advanced Testing Scenarios', () => {
 
   describe('Keyboard Events', () => {
     it('should capture key presses', () => {
-      cy.get('[data-testid="keyboard-input"]').type('a');
+      // Verify keyboard input exists
+      cy.get('[data-testid="keyboard-input"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('have.attr', 'type', 'text')
+        .and('have.value', '')
+        .type('a');
+      
+      // Verify key display
       cy.get('[data-testid="key-display"]')
         .should('be.visible')
-        .and('contain', 'Last key pressed: a');
+        .and('exist')
+        .and('contain', 'Last key pressed: a')
+        .should('not.be.empty');
     });
 
     it('should handle special keys', () => {
@@ -138,15 +156,31 @@ describe('Advanced Testing Scenarios', () => {
     it('should save value to localStorage', () => {
       const testValue = 'Test Storage Value';
       
-      cy.get('[data-testid="storage-input"]').type(testValue);
-      cy.get('[data-testid="save-storage-button"]').click();
+      // Verify input and button exist
+      cy.get('[data-testid="storage-input"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('have.value', '')
+        .type(testValue);
+      
+      cy.get('[data-testid="storage-input"]').should('have.value', testValue);
+      
+      cy.get('[data-testid="save-storage-button"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('not.be.disabled')
+        .click();
       
       // Verify toast
-      cy.contains('Value saved to localStorage').should('be.visible');
+      cy.contains('Value saved to localStorage')
+        .should('be.visible')
+        .and('exist');
       
       // Verify value is in localStorage
       cy.window().then((window) => {
         expect(window.localStorage.getItem('testValue')).to.equal(testValue);
+        expect(window.localStorage.getItem('testValue')).to.not.be.null;
+        expect(window.localStorage.length).to.be.greaterThan(0);
       });
     });
 

@@ -5,21 +5,47 @@ describe('Forms Testing', () => {
 
   describe('Basic Form', () => {
     it('should fill out and submit the basic form', () => {
+      // Verify form exists
+      cy.get('form').should('exist').and('be.visible');
+      
+      // Verify initial state
+      cy.get('[data-testid="name-input"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('have.value', '')
+        .and('have.attr', 'type', 'text');
+      
       // Type into input fields
       cy.get('[data-testid="name-input"]').type('John Doe');
-      cy.get('[data-testid="email-input"]').type('john@example.com');
-      cy.get('[data-testid="password-input"]').type('SecurePassword123');
+      cy.get('[data-testid="email-input"]')
+        .should('have.attr', 'type', 'email')
+        .type('john@example.com');
+      cy.get('[data-testid="password-input"]')
+        .should('have.attr', 'type', 'password')
+        .type('SecurePassword123');
 
-      // Verify input values
-      cy.get('[data-testid="name-input"]').should('have.value', 'John Doe');
-      cy.get('[data-testid="email-input"]').should('have.value', 'john@example.com');
-      cy.get('[data-testid="password-input"]').should('have.value', 'SecurePassword123');
+      // Verify input values and attributes
+      cy.get('[data-testid="name-input"]')
+        .should('have.value', 'John Doe')
+        .and('not.be.disabled');
+      cy.get('[data-testid="email-input"]')
+        .should('have.value', 'john@example.com')
+        .and('have.attr', 'type', 'email');
+      cy.get('[data-testid="password-input"]')
+        .should('have.value', 'SecurePassword123')
+        .and('have.attr', 'type', 'password');
 
       // Submit form
-      cy.get('[data-testid="submit-button"]').click();
+      cy.get('[data-testid="submit-button"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('contain.text', 'Submit')
+        .click();
 
       // Verify success toast appears
-      cy.contains('Form submitted successfully!').should('be.visible');
+      cy.contains('Form submitted successfully!')
+        .should('be.visible')
+        .and('exist');
     });
 
     it('should handle password field as masked input', () => {
@@ -66,31 +92,56 @@ describe('Forms Testing', () => {
   describe('Checkboxes', () => {
     it('should check and uncheck the terms checkbox', () => {
       // Initially unchecked
-      cy.get('[data-testid="terms-checkbox"]').should('not.be.checked');
+      cy.get('[data-testid="terms-checkbox"]')
+        .should('not.be.checked')
+        .and('be.visible')
+        .and('be.enabled')
+        .and('have.attr', 'type', 'checkbox');
 
       // Check it
       cy.get('[data-testid="terms-checkbox"]').check();
-      cy.get('[data-testid="terms-checkbox"]').should('be.checked');
+      cy.get('[data-testid="terms-checkbox"]')
+        .should('be.checked')
+        .and('have.prop', 'checked', true);
 
       // Uncheck it
       cy.get('[data-testid="terms-checkbox"]').uncheck();
-      cy.get('[data-testid="terms-checkbox"]').should('not.be.checked');
+      cy.get('[data-testid="terms-checkbox"]')
+        .should('not.be.checked')
+        .and('have.prop', 'checked', false);
     });
 
     it('should handle multiple checkbox selections', () => {
+      // Verify all checkboxes exist
+      cy.get('[data-testid="interest-tech"]').should('exist').and('be.visible');
+      cy.get('[data-testid="interest-sports"]').should('exist').and('be.visible');
+      cy.get('[data-testid="interest-music"]').should('exist').and('be.visible');
+      
       // Check multiple interests
-      cy.get('[data-testid="interest-tech"]').check();
-      cy.get('[data-testid="interest-sports"]').check();
-      cy.get('[data-testid="interest-music"]').check();
+      cy.get('[data-testid="interest-tech"]').check().should('be.checked');
+      cy.get('[data-testid="interest-sports"]').check().should('be.checked');
+      cy.get('[data-testid="interest-music"]').check().should('be.checked');
 
-      // Verify all are checked
-      cy.get('[data-testid="interest-tech"]').should('be.checked');
-      cy.get('[data-testid="interest-sports"]').should('be.checked');
-      cy.get('[data-testid="interest-music"]').should('be.checked');
+      // Verify all are checked with prop assertion
+      cy.get('[data-testid="interest-tech"]')
+        .should('be.checked')
+        .and('have.prop', 'checked', true);
+      cy.get('[data-testid="interest-sports"]')
+        .should('be.checked')
+        .and('have.prop', 'checked', true);
+      cy.get('[data-testid="interest-music"]')
+        .should('be.checked')
+        .and('have.prop', 'checked', true);
 
       // Uncheck one
       cy.get('[data-testid="interest-sports"]').uncheck();
-      cy.get('[data-testid="interest-sports"]').should('not.be.checked');
+      cy.get('[data-testid="interest-sports"]')
+        .should('not.be.checked')
+        .and('have.prop', 'checked', false);
+      
+      // Verify others still checked
+      cy.get('[data-testid="interest-tech"]').should('be.checked');
+      cy.get('[data-testid="interest-music"]').should('be.checked');
     });
   });
 

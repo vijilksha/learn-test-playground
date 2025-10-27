@@ -5,14 +5,28 @@ describe('Navigation Testing', () => {
     });
 
     it('should display homepage correctly', () => {
-      cy.contains('Testing Playground').should('be.visible');
+      cy.contains('Testing Playground').should('be.visible').and('exist');
       cy.contains('A comprehensive web application for learning').should('be.visible');
+      
+      // Verify main sections exist
+      cy.get('nav').should('exist').and('be.visible');
+      cy.get('main').should('exist');
+      
+      // Verify hero section
+      cy.contains('Start Testing').should('be.visible').and('not.be.disabled');
+      
+      // Verify scenario cards
+      cy.contains('Form Testing').should('be.visible');
+      cy.contains('Interactive Elements').should('be.visible');
+      cy.contains('Dynamic Content').should('be.visible');
     });
 
     it('should navigate to Forms page from navigation menu', () => {
-      cy.contains('Forms').click();
-      cy.url().should('include', '/forms');
-      cy.contains('Form Testing Scenarios').should('be.visible');
+      cy.url().should('eq', Cypress.config().baseUrl + '/');
+      cy.contains('Forms').should('be.visible').and('exist').click();
+      cy.url().should('include', '/forms').and('not.include', '#');
+      cy.contains('Form Testing Scenarios').should('be.visible').and('exist');
+      cy.location('pathname').should('eq', '/forms');
     });
 
     it('should navigate to all pages from navigation', () => {
@@ -35,8 +49,11 @@ describe('Navigation Testing', () => {
 
     it('should navigate back to home from any page', () => {
       cy.visit('/forms');
-      cy.contains('Testing Playground').click();
+      cy.url().should('include', '/forms');
+      cy.contains('Testing Playground').should('be.visible').click();
       cy.url().should('equal', Cypress.config().baseUrl + '/');
+      cy.location('pathname').should('eq', '/');
+      cy.contains('A comprehensive web application for learning').should('be.visible');
     });
 
     it('should navigate using hero section buttons', () => {
@@ -70,7 +87,11 @@ describe('Navigation Testing', () => {
     });
 
     it('should show mobile menu button on small screens', () => {
-      cy.get('button[aria-label="Toggle menu"]').should('be.visible');
+      cy.get('button[aria-label="Toggle menu"]')
+        .should('be.visible')
+        .and('exist')
+        .and('not.be.disabled')
+        .and('have.attr', 'aria-label', 'Toggle menu');
     });
 
     it('should open mobile menu when button clicked', () => {
@@ -109,7 +130,9 @@ describe('Navigation Testing', () => {
 
     it('should handle 404 for invalid routes', () => {
       cy.visit('/invalid-page', { failOnStatusCode: false });
-      cy.contains('404').should('be.visible');
+      cy.contains('404').should('be.visible').and('exist');
+      cy.url().should('include', '/invalid-page');
+      cy.contains('Page not found').should('exist');
     });
   });
 

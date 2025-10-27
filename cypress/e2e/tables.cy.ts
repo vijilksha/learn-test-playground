@@ -5,20 +5,41 @@ describe('Tables and Lists Testing', () => {
 
   describe('Table Display', () => {
     it('should display user table with correct data', () => {
-      // Verify table rows exist
-      cy.get('[data-testid="user-row-1"]').should('be.visible');
-      cy.get('[data-testid="user-row-2"]').should('be.visible');
-      cy.get('[data-testid="user-row-3"]').should('be.visible');
-      cy.get('[data-testid="user-row-4"]').should('be.visible');
-      cy.get('[data-testid="user-row-5"]').should('be.visible');
+      // Verify table structure
+      cy.get('table').should('exist').and('be.visible');
+      cy.get('thead').should('exist').and('be.visible');
+      cy.get('tbody').should('exist').and('be.visible');
+      
+      // Verify table rows exist and are visible
+      cy.get('[data-testid="user-row-1"]').should('be.visible').and('exist');
+      cy.get('[data-testid="user-row-2"]').should('be.visible').and('exist');
+      cy.get('[data-testid="user-row-3"]').should('be.visible').and('exist');
+      cy.get('[data-testid="user-row-4"]').should('be.visible').and('exist');
+      cy.get('[data-testid="user-row-5"]').should('be.visible').and('exist');
+      
+      // Verify row count
+      cy.get('[data-testid^="user-row-"]').should('have.length', 5);
     });
 
     it('should display correct user information', () => {
-      // Check first user
-      cy.get('[data-testid="user-name-1"]').should('contain', 'Alice Johnson');
-      cy.get('[data-testid="user-email-1"]').should('contain', 'alice@example.com');
-      cy.get('[data-testid="user-role-1"]').should('contain', 'Admin');
-      cy.get('[data-testid="user-status-1"]').should('contain', 'active');
+      // Check first user with comprehensive assertions
+      cy.get('[data-testid="user-name-1"]')
+        .should('be.visible')
+        .and('exist')
+        .and('contain', 'Alice Johnson')
+        .and('not.be.empty');
+      cy.get('[data-testid="user-email-1"]')
+        .should('be.visible')
+        .and('contain', 'alice@example.com')
+        .invoke('text')
+        .should('match', /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
+      cy.get('[data-testid="user-role-1"]')
+        .should('be.visible')
+        .and('contain', 'Admin');
+      cy.get('[data-testid="user-status-1"]')
+        .should('be.visible')
+        .and('contain', 'active')
+        .and('have.class', 'text-primary');
     });
 
     it('should show results count', () => {
@@ -30,14 +51,26 @@ describe('Tables and Lists Testing', () => {
 
   describe('Search Functionality', () => {
     it('should filter users by name', () => {
-      cy.get('[data-testid="search-input"]').type('Alice');
+      // Verify search input exists
+      cy.get('[data-testid="search-input"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .and('have.attr', 'type', 'text')
+        .and('have.value', '')
+        .type('Alice');
+      
+      // Verify input value
+      cy.get('[data-testid="search-input"]').should('have.value', 'Alice');
       
       // Only Alice should be visible
-      cy.get('[data-testid="user-row-1"]').should('be.visible');
+      cy.get('[data-testid="user-row-1"]').should('be.visible').and('exist');
       cy.get('[data-testid="user-row-2"]').should('not.exist');
+      cy.get('[data-testid^="user-row-"]').should('have.length', 1);
       
       // Check results count
-      cy.get('[data-testid="results-count"]').should('contain', 'Showing 1 of 5 users');
+      cy.get('[data-testid="results-count"]')
+        .should('be.visible')
+        .and('contain', 'Showing 1 of 5 users');
     });
 
     it('should filter users by email', () => {
@@ -51,9 +84,16 @@ describe('Tables and Lists Testing', () => {
       cy.get('[data-testid="search-input"]').type('nonexistent user');
       cy.get('[data-testid="no-results"]')
         .should('be.visible')
+        .and('exist')
         .and('contain', 'No users found');
       
-      cy.get('[data-testid="results-count"]').should('contain', 'Showing 0 of 5 users');
+      // Verify no user rows exist
+      cy.get('[data-testid^="user-row-"]').should('have.length', 0);
+      
+      // Verify results count
+      cy.get('[data-testid="results-count"]')
+        .should('be.visible')
+        .and('contain', 'Showing 0 of 5 users');
     });
 
     it('should handle case-insensitive search', () => {
