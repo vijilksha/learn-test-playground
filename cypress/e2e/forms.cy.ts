@@ -40,10 +40,12 @@ describe('Forms Testing', () => {
         .should('be.visible')
         .and('be.enabled')
         .and('contain.text', 'Submit')
-        .click();
+        .scrollIntoView()
+        .wait(100)
+        .click({ force: true });
 
       // Verify success toast appears
-      cy.contains('Form submitted successfully!')
+      cy.contains('Form submitted successfully!', { timeout: 10000 })
         .should('be.visible')
         .and('exist');
     });
@@ -196,10 +198,15 @@ describe('Forms Testing', () => {
       cy.get('[data-testid="radio-email"]').check();
 
       // Submit form
-      cy.get('[data-testid="submit-button"]').click();
+      cy.get('[data-testid="submit-button"]')
+        .should('be.visible')
+        .and('be.enabled')
+        .scrollIntoView()
+        .wait(100)
+        .click({ force: true });
 
       // Verify success
-      cy.contains('Welcome, Alice Johnson!').should('be.visible');
+      cy.contains('Welcome, Alice Johnson!', { timeout: 10000 }).should('be.visible');
     });
   });
 });

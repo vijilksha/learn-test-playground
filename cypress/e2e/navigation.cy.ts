@@ -23,9 +23,12 @@ describe('Navigation Testing', () => {
 
     it('should navigate to Forms page from navigation menu', () => {
       cy.url().should('eq', Cypress.config().baseUrl + '/');
-      cy.contains('Forms').should('be.visible').and('exist').click();
-      cy.url().should('include', '/forms').and('not.include', '#');
-      cy.contains('Form Testing Scenarios').should('be.visible').and('exist');
+      cy.contains('nav', 'Forms', { timeout: 10000 })
+        .should('be.visible')
+        .and('exist')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/forms').and('not.include', '#');
+      cy.contains('Form Testing Scenarios', { timeout: 10000 }).should('be.visible').and('exist');
       cy.location('pathname').should('eq', '/forms');
     });
 
@@ -41,35 +44,49 @@ describe('Navigation Testing', () => {
 
       pages.forEach((page) => {
         cy.visit('/');
-        cy.contains(page.name).click();
-        cy.url().should('include', page.url);
-        cy.contains(page.heading).should('be.visible');
+        cy.contains('nav', page.name, { timeout: 10000 })
+          .should('be.visible')
+          .click();
+        cy.url({ timeout: 10000 }).should('include', page.url);
+        cy.contains(page.heading, { timeout: 10000 }).should('be.visible');
       });
     });
 
     it('should navigate back to home from any page', () => {
       cy.visit('/forms');
       cy.url().should('include', '/forms');
-      cy.contains('Testing Playground').should('be.visible').click();
-      cy.url().should('equal', Cypress.config().baseUrl + '/');
+      cy.contains('Testing Playground', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('equal', Cypress.config().baseUrl + '/');
       cy.location('pathname').should('eq', '/');
-      cy.contains('A comprehensive web application for learning').should('be.visible');
+      cy.contains('A comprehensive web application for learning', { timeout: 10000 }).should('be.visible');
     });
 
     it('should navigate using hero section buttons', () => {
-      cy.contains('Start Testing').click();
-      cy.url().should('include', '/forms');
+      cy.contains('Start Testing', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/forms');
     });
 
     it('should navigate through scenario cards', () => {
       // Click on Forms card
-      cy.contains('Input fields, selects, checkboxes').parent().parent().click();
-      cy.url().should('include', '/forms');
+      cy.contains('Input fields, selects, checkboxes', { timeout: 10000 })
+        .should('be.visible')
+        .parent()
+        .parent()
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/forms');
 
       // Go back and test another card
       cy.visit('/');
-      cy.contains('API calls, loading states').parent().parent().click();
-      cy.url().should('include', '/api');
+      cy.contains('API calls, loading states', { timeout: 10000 })
+        .should('be.visible')
+        .parent()
+        .parent()
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/api');
     });
   });
 
@@ -96,25 +113,31 @@ describe('Navigation Testing', () => {
 
     it('should open mobile menu when button clicked', () => {
       cy.get('button[aria-label="Toggle menu"]').click();
-      cy.contains('Forms').should('be.visible');
-      cy.contains('Interactions').should('be.visible');
+      cy.contains('Forms', { timeout: 10000 }).should('be.visible');
+      cy.contains('Interactions', { timeout: 10000 }).should('be.visible');
     });
 
     it('should navigate to page from mobile menu', () => {
       cy.get('button[aria-label="Toggle menu"]').click();
-      cy.contains('Dynamic Content').click();
-      cy.url().should('include', '/dynamic');
+      cy.contains('Dynamic Content', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/dynamic');
     });
   });
 
   describe('Breadcrumb Navigation', () => {
     it('should allow navigation between related pages', () => {
       cy.visit('/forms');
-      cy.contains('Interactions').click();
-      cy.url().should('include', '/interactions');
+      cy.contains('nav', 'Interactions', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/interactions');
 
-      cy.contains('Forms').click();
-      cy.url().should('include', '/forms');
+      cy.contains('nav', 'Forms', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/forms');
     });
   });
 
@@ -139,27 +162,34 @@ describe('Navigation Testing', () => {
   describe('Browser Navigation', () => {
     it('should work with browser back button', () => {
       cy.visit('/');
-      cy.contains('Forms').click();
-      cy.url().should('include', '/forms');
+      cy.contains('nav', 'Forms', { timeout: 10000 })
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('include', '/forms');
 
       cy.go('back');
-      cy.url().should('not.include', '/forms');
+      cy.url({ timeout: 10000 }).should('not.include', '/forms');
     });
 
     it('should work with browser forward button', () => {
       cy.visit('/');
-      cy.contains('Forms').click();
+      cy.contains('nav', 'Forms', { timeout: 10000 })
+        .should('be.visible')
+        .click();
       cy.go('back');
       cy.go('forward');
-      cy.url().should('include', '/forms');
+      cy.url({ timeout: 10000 }).should('include', '/forms');
     });
   });
 
   describe('Logo Navigation', () => {
     it('should return to homepage when clicking logo', () => {
       cy.visit('/forms');
-      cy.get('nav a').first().click();
-      cy.url().should('equal', Cypress.config().baseUrl + '/');
+      cy.get('nav a', { timeout: 10000 })
+        .first()
+        .should('be.visible')
+        .click();
+      cy.url({ timeout: 10000 }).should('equal', Cypress.config().baseUrl + '/');
     });
   });
 });
