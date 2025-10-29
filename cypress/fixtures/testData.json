@@ -1,0 +1,135 @@
+{
+  "urls": {
+    "loginUrl": "/login",
+    "dashboardUrl": "/dashboard",
+    "homeUrl": "/",
+    "formsUrl": "/forms",
+    "tablesUrl": "/tables",
+    "apiUrl": "/api",
+    "notFoundUrl": "/not-found"
+  },
+  "apiEndpoints": {
+    "baseUrl": "https://api.example.com",
+    "login": "/api/auth/login",
+    "users": "/api/users",
+    "products": "/api/products",
+    "orders": "/api/orders"
+  },
+  "errorMessages": {
+    "invalidCredentials": "Invalid username or password",
+    "emptyUsername": "Username is required",
+    "emptyPassword": "Password is required",
+    "invalidEmail": "Please enter a valid email address",
+    "networkError": "Network error occurred",
+    "serverError": "Internal server error",
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "forbidden": "Access forbidden",
+    "sessionExpired": "Your session has expired"
+  },
+  "successMessages": {
+    "loginSuccess": "Login successful",
+    "logoutSuccess": "Logged out successfully",
+    "dataSaved": "Data saved successfully",
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "formSubmitted": "Form submitted successfully"
+  },
+  "timeouts": {
+    "short": 5000,
+    "medium": 10000,
+    "long": 30000,
+    "api": 15000,
+    "loading": 10000
+  },
+  "viewports": {
+    "mobile": {
+      "width": 375,
+      "height": 667
+    },
+    "tablet": {
+      "width": 768,
+      "height": 1024
+    },
+    "desktop": {
+      "width": 1920,
+      "height": 1080
+    },
+    "desktopSmall": {
+      "width": 1366,
+      "height": 768
+    }
+  },
+  "formData": {
+    "validEmail": "test@example.com",
+    "validName": "John Doe",
+    "validPhone": "+1-555-0123",
+    "validAddress": "123 Main Street",
+    "validCity": "San Francisco",
+    "validZipCode": "94105",
+    "validCountry": "United States"
+  },
+  "testScenarios": {
+    "positiveTests": [
+      "Valid login with correct credentials",
+      "Successful form submission",
+      "Data retrieval from API",
+      "Navigation between pages"
+    ],
+    "negativeTests": [
+      "Login with invalid credentials",
+      "Submit form with missing fields",
+      "Access protected route without auth",
+      "Handle API errors gracefully"
+    ]
+  },
+  "commonSelectors": {
+    "submitButton": "[data-testid='submit-button']",
+    "cancelButton": "[data-testid='cancel-button']",
+    "closeButton": "[data-testid='close-button']",
+    "loadingSpinner": "[data-testid='loading']",
+    "errorMessage": "[data-testid='error-message']",
+    "successMessage": "[data-testid='success-message']",
+    "modal": "[data-testid='modal']",
+    "dropdown": "[data-testid='dropdown']"
+  },
+  "pagination": {
+    "itemsPerPage": 10,
+    "defaultPage": 1,
+    "maxPages": 5
+  },
+  "sorting": {
+    "defaultColumn": "name",
+    "defaultOrder": "asc",
+    "availableColumns": ["name", "email", "date", "status"]
+  },
+  "filters": {
+    "status": ["active", "inactive", "pending"],
+    "roles": ["user", "admin", "manager"],
+    "dateRanges": ["today", "last7days", "last30days", "custom"]
+  },
+  "localStorageKeys": {
+    "authToken": "auth_token",
+    "userData": "user_data",
+    "preferences": "user_preferences",
+    "theme": "theme_preference"
+  },
+  "cookieNames": {
+    "sessionId": "session_id",
+    "rememberMe": "remember_me",
+    "csrfToken": "csrf_token"
+  },
+  "testTags": {
+    "smoke": "Smoke Test",
+    "regression": "Regression Test",
+    "sanity": "Sanity Test",
+    "e2e": "End-to-End Test",
+    "integration": "Integration Test"
+  },
+  "environments": {
+    "dev": "https://dev.example.com",
+    "staging": "https://staging.example.com",
+    "production": "https://www.example.com"
+  }
+}

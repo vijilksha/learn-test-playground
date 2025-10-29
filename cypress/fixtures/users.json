@@ -1,0 +1,183 @@
+{
+  "validUser": {
+    "username": "john.doe@example.com",
+    "password": "SecurePass123!",
+    "firstName": "John",
+    "lastName": "Doe",
+    "fullName": "John Doe",
+    "role": "user",
+    "phone": "+1-555-0123",
+    "address": {
+      "street": "123 Main St",
+      "city": "San Francisco",
+      "state": "CA",
+      "zip": "94105",
+      "country": "USA"
+    }
+  },
+  "invalidUser": {
+    "username": "invalid@example.com",
+    "password": "wrongpassword",
+    "firstName": "",
+    "lastName": ""
+  },
+  "adminUser": {
+    "username": "admin@example.com",
+    "password": "AdminPass123!",
+    "firstName": "Admin",
+    "lastName": "User",
+    "fullName": "Admin User",
+    "role": "admin",
+    "permissions": ["read", "write", "delete", "manage_users"],
+    "phone": "+1-555-0100"
+  },
+  "testUser1": {
+    "username": "test.user1@example.com",
+    "password": "TestPass123!",
+    "firstName": "Test",
+    "lastName": "User One",
+    "fullName": "Test User One",
+    "role": "user",
+    "active": true,
+    "department": "Engineering"
+  },
+  "testUser2": {
+    "username": "test.user2@example.com",
+    "password": "TestPass456!",
+    "firstName": "Test",
+    "lastName": "User Two",
+    "fullName": "Test User Two",
+    "role": "user",
+    "active": true,
+    "department": "Marketing"
+  },
+  "inactiveUser": {
+    "username": "inactive@example.com",
+    "password": "InactivePass123!",
+    "firstName": "Inactive",
+    "lastName": "User",
+    "fullName": "Inactive User",
+    "role": "user",
+    "active": false
+  },
+  "managerUser": {
+    "username": "manager@example.com",
+    "password": "ManagerPass123!",
+    "firstName": "Manager",
+    "lastName": "Smith",
+    "fullName": "Manager Smith",
+    "role": "manager",
+    "permissions": ["read", "write", "approve"],
+    "department": "Operations",
+    "active": true
+  },
+  "users": [
+    {
+      "id": 1,
+      "username": "user1@example.com",
+      "password": "Pass123!",
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "active": true,
+      "role": "user"
+    },
+    {
+      "id": 2,
+      "username": "user2@example.com",
+      "password": "Pass456!",
+      "firstName": "Bob",
+      "lastName": "Williams",
+      "active": true,
+      "role": "user"
+    },
+    {
+      "id": 3,
+      "username": "user3@example.com",
+      "password": "Pass789!",
+      "firstName": "Charlie",
+      "lastName": "Brown",
+      "active": false,
+      "role": "user"
+    },
+    {
+      "id": 4,
+      "username": "user4@example.com",
+      "password": "Pass012!",
+      "firstName": "Diana",
+      "lastName": "Davis",
+      "active": true,
+      "role": "manager"
+    },
+    {
+      "id": 5,
+      "username": "user5@example.com",
+      "password": "Pass345!",
+      "firstName": "Eve",
+      "lastName": "Miller",
+      "active": true,
+      "role": "admin"
+    }
+  ],
+  "bulkUsers": [
+    {
+      "username": "bulk1@example.com",
+      "password": "BulkPass1!",
+      "firstName": "Bulk",
+      "lastName": "User One"
+    },
+    {
+      "username": "bulk2@example.com",
+      "password": "BulkPass2!",
+      "firstName": "Bulk",
+      "lastName": "User Two"
+    },
+    {
+      "username": "bulk3@example.com",
+      "password": "BulkPass3!",
+      "firstName": "Bulk",
+      "lastName": "User Three"
+    }
+  ],
+  "specialCharUsers": {
+    "withSpecialChars": {
+      "username": "special+user@example.com",
+      "password": "P@ssw0rd!#$%",
+      "firstName": "Special",
+      "lastName": "Character"
+    },
+    "withUnicode": {
+      "username": "unicode@example.com",
+      "password": "Pässwörd123!",
+      "firstName": "Üñíçødé",
+      "lastName": "User"
+    }
+  },
+  "emptyCredentials": {
+    "emptyUsername": {
+      "username": "",
+      "password": "SomePassword123!"
+    },
+    "emptyPassword": {
+      "username": "user@example.com",
+      "password": ""
+    },
+    "bothEmpty": {
+      "username": "",
+      "password": ""
+    }
+  },
+  "invalidFormats": {
+    "invalidEmail": {
+      "username": "notanemail",
+      "password": "ValidPass123!"
+    },
+    "shortPassword": {
+      "username": "user@example.com",
+      "password": "12345"
+    },
+    "weakPassword": {
+      "username": "user@example.com",
+      "password": "password"
+    }
+  }
+}
