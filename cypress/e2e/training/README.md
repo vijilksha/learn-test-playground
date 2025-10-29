@@ -48,6 +48,13 @@ Key differences between Cypress and Selenium
 - Automatic waiting
 - Command chaining
 
+### 8. Window Handling - `08-window-handling.cy.js`
+Browser window, alerts, popups, and tabs
+- Handling alerts and confirms
+- Working with prompts
+- Accessing window object
+- Multiple tabs alternatives (Cypress limitation)
+
 ## Quick Start
 
 ```bash
@@ -62,7 +69,7 @@ npx cypress open
 ```
 
 ## Learning Path
-Start with file 01, then proceed through 02-07 in order. Each file builds on previous concepts.
+Start with file 01, then proceed through 02-08 in order. Each file builds on previous concepts.
 
 ## Additional Resources
 - Original TypeScript examples: `cypress/e2e/training/loginTest.cy.ts`
