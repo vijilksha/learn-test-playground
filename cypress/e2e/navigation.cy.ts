@@ -23,10 +23,8 @@ describe('Navigation Testing', () => {
 
     it('should navigate to Forms page from navigation menu', () => {
       cy.url().should('eq', Cypress.config().baseUrl + '/');
-      cy.contains('nav', 'Forms', { timeout: 10000 })
-        .should('be.visible')
-        .and('exist')
-        .click();
+      // Using custom command for navigation
+      cy.navigateTo('Forms');
       cy.url({ timeout: 10000 }).should('include', '/forms').and('not.include', '#');
       cy.contains('Form Testing Scenarios', { timeout: 10000 }).should('be.visible').and('exist');
       cy.location('pathname').should('eq', '/forms');
@@ -44,9 +42,8 @@ describe('Navigation Testing', () => {
 
       pages.forEach((page) => {
         cy.visit('/');
-        cy.contains('nav', page.name, { timeout: 10000 })
-          .should('be.visible')
-          .click();
+        // Using custom command for navigation
+        cy.navigateTo(page.name);
         cy.url({ timeout: 10000 }).should('include', page.url);
         cy.contains(page.heading, { timeout: 10000 }).should('be.visible');
       });
@@ -129,14 +126,12 @@ describe('Navigation Testing', () => {
   describe('Breadcrumb Navigation', () => {
     it('should allow navigation between related pages', () => {
       cy.visit('/forms');
-      cy.contains('nav', 'Interactions', { timeout: 10000 })
-        .should('be.visible')
-        .click();
+      // Using custom command for navigation
+      cy.navigateTo('Interactions');
       cy.url({ timeout: 10000 }).should('include', '/interactions');
 
-      cy.contains('nav', 'Forms', { timeout: 10000 })
-        .should('be.visible')
-        .click();
+      // Navigate back to forms using custom command
+      cy.navigateTo('Forms');
       cy.url({ timeout: 10000 }).should('include', '/forms');
     });
   });
@@ -162,9 +157,8 @@ describe('Navigation Testing', () => {
   describe('Browser Navigation', () => {
     it('should work with browser back button', () => {
       cy.visit('/');
-      cy.contains('nav', 'Forms', { timeout: 10000 })
-        .should('be.visible')
-        .click();
+      // Using custom command for navigation
+      cy.navigateTo('Forms');
       cy.url({ timeout: 10000 }).should('include', '/forms');
 
       cy.go('back');
@@ -173,9 +167,8 @@ describe('Navigation Testing', () => {
 
     it('should work with browser forward button', () => {
       cy.visit('/');
-      cy.contains('nav', 'Forms', { timeout: 10000 })
-        .should('be.visible')
-        .click();
+      // Using custom command for navigation
+      cy.navigateTo('Forms');
       cy.go('back');
       cy.go('forward');
       cy.url({ timeout: 10000 }).should('include', '/forms');

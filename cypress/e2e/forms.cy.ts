@@ -176,14 +176,11 @@ describe('Forms Testing', () => {
 
   describe('Form Integration Test', () => {
     it('should complete entire form workflow', () => {
-      // Fill basic form
-      cy.get('[data-testid="name-input"]').type('Alice Johnson');
-      cy.get('[data-testid="email-input"]').type('alice@test.com');
-      cy.get('[data-testid="password-input"]').type('TestPass123');
+      // Use custom command to fill basic form
+      cy.fillBasicForm('Alice Johnson', 'alice@test.com', 'TestPass123');
 
-      // Select country
-      cy.get('[data-testid="country-select"]').click();
-      cy.contains('Canada').click();
+      // Use custom command to select country
+      cy.selectFromDropdown('[data-testid="country-select"]', 'Canada');
 
       // Fill bio
       cy.get('[data-testid="bio-textarea"]').type('QA Engineer specializing in automation');
@@ -191,22 +188,47 @@ describe('Forms Testing', () => {
       // Check terms
       cy.get('[data-testid="terms-checkbox"]').check();
 
-      // Select interests
-      cy.get('[data-testid="interest-tech"]').check();
+      // Use custom command to check multiple interests
+      cy.checkMultiple(['[data-testid="interest-tech"]']);
 
       // Select notification preference
       cy.get('[data-testid="radio-email"]').check();
 
-      // Submit form
-      cy.get('[data-testid="submit-button"]')
-        .should('be.visible')
-        .and('be.enabled')
-        .scrollIntoView()
-        .wait(100)
-        .click({ force: true });
+      // Use custom command to submit form
+      cy.submitForm();
 
-      // Verify success
-      cy.contains('Welcome, Alice Johnson!', { timeout: 10000 }).should('be.visible');
+      // Use custom command to verify success
+      cy.verifyToast('Welcome, Alice Johnson!');
+    });
+
+    it('should demonstrate all custom commands', () => {
+      // Custom command: fillBasicForm
+      cy.fillBasicForm('John Doe', 'john@example.com', 'SecurePass123');
+
+      // Custom command: verifyAttributes
+      cy.verifyAttributes('[data-testid="email-input"]', {
+        type: 'email',
+        value: 'john@example.com'
+      });
+
+      // Custom command: selectFromDropdown
+      cy.selectFromDropdown('[data-testid="country-select"]', 'United States');
+
+      // Custom command: checkMultiple
+      cy.checkMultiple([
+        '[data-testid="interest-tech"]',
+        '[data-testid="interest-sports"]',
+        '[data-testid="interest-music"]'
+      ]);
+
+      // Check terms
+      cy.get('[data-testid="terms-checkbox"]').check();
+
+      // Custom command: submitForm
+      cy.submitForm();
+
+      // Custom command: verifyToast
+      cy.verifyToast('Form submitted successfully!');
     });
   });
 });

@@ -2,6 +2,54 @@
 
 This directory contains comprehensive Cypress E2E tests for all testing scenarios in the Testing Playground application.
 
+## Custom Commands
+
+The project includes reusable custom commands defined in `cypress/support/commands.ts`. These commands simplify common test operations and improve code reusability.
+
+### Available Custom Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `cy.fillBasicForm(name, email, password)` | Fills out the basic form fields | `cy.fillBasicForm('John', 'john@example.com', 'pass123')` |
+| `cy.submitForm()` | Submits a form with proper visibility and enabled checks | `cy.submitForm()` |
+| `cy.verifyToast(message, timeout?)` | Verifies toast notification appears | `cy.verifyToast('Success!')` |
+| `cy.navigateTo(linkText)` | Navigates using nav link text with timeout handling | `cy.navigateTo('Forms')` |
+| `cy.verifyAttributes(selector, attributes)` | Verifies multiple attributes at once | `cy.verifyAttributes('[data-testid="input"]', { type: 'text' })` |
+| `cy.checkMultiple(selectors[])` | Checks multiple checkboxes in one command | `cy.checkMultiple(['[data-testid="cb1"]', '[data-testid="cb2"]'])` |
+| `cy.selectFromDropdown(dropdownSelector, optionText)` | Selects from dropdown and verifies | `cy.selectFromDropdown('[data-testid="country"]', 'USA')` |
+| `cy.waitForLoading(selector?)` | Waits for loading indicator to disappear | `cy.waitForLoading()` |
+
+### Usage Examples
+
+```typescript
+// Fill form with custom command
+cy.fillBasicForm('John Doe', 'john@example.com', 'password123');
+
+// Select from dropdown
+cy.selectFromDropdown('[data-testid="country-select"]', 'United States');
+
+// Submit form
+cy.submitForm();
+
+// Verify toast message
+cy.verifyToast('Form submitted successfully!');
+
+// Navigate to page
+cy.navigateTo('Interactions');
+
+// Check multiple checkboxes
+cy.checkMultiple([
+  '[data-testid="interest-tech"]',
+  '[data-testid="interest-sports"]'
+]);
+
+// Verify multiple attributes
+cy.verifyAttributes('[data-testid="email-input"]', {
+  type: 'email',
+  placeholder: 'Enter email'
+});
+```
+
 ## Test Files
 
 ### 1. `forms.cy.ts`
